@@ -1,33 +1,25 @@
 {
   "manifest_version": 3,
-  "name": "Climbing Pyramid Extension",
+  "name": "Mountain Project - Climbing Pyramid",
   "version": "0.1.0",
-  "description": "My Chrome Extension",
+  "description": "View your climbing pyramid using Mountain Project ticks",
   "icons": {
-    "16": "icons/icon_16.png",
-    "32": "icons/icon_32.png",
-    "48": "icons/icon_48.png",
-    "128": "icons/icon_128.png"
-  },
-  "background": {
-    "service_worker": "background.js"
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "Climbing Pyramid Extension",
-    "default_popup": "popup.html"
+    "default_title": "Mountain Project - Climbing Pyramid"
   },
   "permissions": [
     "storage"
   ],
   "content_scripts": [
     {
-      "matches": [
-        "<all_urls>"
-      ],
-      "run_at": "document_idle",
-      "js": [
-        "contentScript.js"
-      ]
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "matches": ["https://www.mountainproject.com/user/*"]
     }
   ]
 }

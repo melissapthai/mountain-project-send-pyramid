@@ -1,0 +1,26 @@
+#loading {
+  width: 4rem;
+  height: 4rem;
+  border: 2px solid #f3f3f3;
+  border-top: 3px solid #f25a41;
+  border-radius: 100%;
+  margin: auto;
+  animation: spin 1s infinite linear;
+  will-change: transform;
+  animation: spin 1s infinite linear;
+  visibility: hidden;
+}
+
+#loading.display {
+  visibility: visible;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

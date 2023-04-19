@@ -20,5 +20,10 @@
     "webpack": "^5.79.0",
     "webpack-cli": "^4.10.0",
     "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "@kurkle/color": "^0.3.2",
+    "chart.js": "^4.2.1",
+    "papaparse": "^5.4.1"
   }
 }
