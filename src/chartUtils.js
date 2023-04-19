@@ -52,5 +52,4 @@ export const CHART_COLORS = {
   blue: 'rgb(54, 162, 235)',
   purple: 'rgb(153, 102, 255)',
   grey: 'rgb(201, 203, 207)',
-  pink: 'rgb(250, 157, 236)',
 };
