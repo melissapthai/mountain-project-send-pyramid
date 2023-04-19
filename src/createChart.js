@@ -1,70 +1,87 @@
 import Chart from 'chart.js/auto';
 
-import * as Utils from './utils';
-import { CLIMBING_CHART_ID, GRADES } from './constants.js';
+import * as ChartUtils from './chartUtils';
+import { CLIMBING_CHART_ID, ROUTE_GRADES, SENDS } from './constants.js';
 
-const VALUES = GRADES.map(() => Math.floor(Math.random() * 11));
+const VALUES = ROUTE_GRADES.map(() => Math.floor(Math.random() * 11));
 
 const NUMBER_CFG = {
-  count: GRADES.length,
+  count: ROUTE_GRADES.length,
   min: Math.min(...VALUES),
   max: Math.max(...VALUES),
 };
 
-const data = {
-  labels: GRADES,
-  datasets: [
-    {
-      label: 'Onsight',
-      data: Utils.numbers(NUMBER_CFG),
-      borderColor: Utils.CHART_COLORS.blue,
-      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-    },
-    {
-      label: 'Flash',
-      data: Utils.numbers(NUMBER_CFG),
-      borderColor: Utils.CHART_COLORS.yellow,
-      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.yellow, 0.5),
-    },
-    {
-      label: 'Redpoint',
-      data: Utils.numbers(NUMBER_CFG),
-      borderColor: Utils.CHART_COLORS.red,
-      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-    },
-  ],
+const SEND_TYPE_TO_COLOR = {};
+SEND_TYPE_TO_COLOR[SENDS.onsight] = ChartUtils.CHART_COLORS.blue;
+SEND_TYPE_TO_COLOR[SENDS.flash] = ChartUtils.CHART_COLORS.yellow;
+SEND_TYPE_TO_COLOR[SENDS.redpoint] = ChartUtils.CHART_COLORS.red;
+SEND_TYPE_TO_COLOR[SENDS.pinkpoint] = ChartUtils.CHART_COLORS.pink;
+
+const generateSportDatasets = (data) => {
+  const datasets = [];
+
+  for (const key in SEND_TYPE_TO_COLOR) {
+    datasets.push({
+      label: key,
+      data: ChartUtils.numbers(NUMBER_CFG),
+      borderColor: SEND_TYPE_TO_COLOR[key],
+      backgroundColor: ChartUtils.transparentize(SEND_TYPE_TO_COLOR[key], 0.5),
+    });
+  }
+
+  return datasets;
 };
 
-const config = {
-  type: 'bar',
-  data: data,
-  options: {
-    indexAxis: 'y',
-    elements: {
-      bar: {
-        borderWidth: 2,
+// TODO: create data for trad and boulder sends too.
+const generateSportChartConfig = (data) => {
+  console.log(data[0]);
+  console.log(data[1]);
+  console.log(data[2]);
+  const datasets = generateSportDatasets(data);
+
+  const sportChartData = {
+    labels: ROUTE_GRADES,
+    datasets,
+  };
+
+  const sportChartConfig = {
+    type: 'bar',
+    data: sportChartData,
+    options: {
+      indexAxis: 'y',
+      elements: {
+        bar: {
+          borderWidth: 2,
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+        },
+      },
+      plugins: {
+        legend: {
+          position: 'right',
+        },
       },
     },
-    responsive: true,
-    scales: {
-      x: {
-        stacked: true,
-      },
-      y: {
-        stacked: true,
-      },
-    },
-    plugins: {
-      legend: {
-        position: 'right',
-      },
-    },
-  },
+  };
+
+  return sportChartConfig;
 };
 
 // TODO: create chart with data as parameter, instead of random numbers.
 const createChart = (data) => {
-  return new Chart(document.getElementById(CLIMBING_CHART_ID), config);
+  const sportChartConfig = generateSportChartConfig(data);
+
+  return new Chart(
+    document.getElementById(CLIMBING_CHART_ID),
+    sportChartConfig
+  );
 };
 
 export default createChart;

@@ -8,14 +8,14 @@ import colorLib from '@kurkle/color';
 
 var _seed = Date.now();
 
-export function rand(min, max) {
+const rand = (min, max) => {
   min = min || 0;
   max = max || 0;
   _seed = (_seed * 9301 + 49297) % 233280;
   return min + (_seed / 233280) * (max - min);
-}
+};
 
-export function numbers(config) {
+export const numbers = (config) => {
   var cfg = config || {};
   var min = cfg.min || 0;
   var max = cfg.max || 100;
@@ -37,47 +37,12 @@ export function numbers(config) {
   }
 
   return data;
-}
+};
 
-export function labels(config) {
-  var cfg = config || {};
-  var min = cfg.min || 0;
-  var max = cfg.max || 100;
-  var count = cfg.count || 8;
-  var step = (max - min) / count;
-  var decimals = cfg.decimals || 8;
-  var dfactor = Math.pow(10, decimals) || 0;
-  var prefix = cfg.prefix || '';
-  var values = [];
-  var i;
-
-  for (i = min; i < max; i += step) {
-    values.push(prefix + Math.round(dfactor * i) / dfactor);
-  }
-
-  return values;
-}
-
-const COLORS = [
-  '#4dc9f6',
-  '#f67019',
-  '#f53794',
-  '#537bc4',
-  '#acc236',
-  '#166a8f',
-  '#00a950',
-  '#58595b',
-  '#8549ba',
-];
-
-export function color(index) {
-  return COLORS[index % COLORS.length];
-}
-
-export function transparentize(value, opacity) {
+export const transparentize = (value, opacity) => {
   var alpha = opacity === undefined ? 0.5 : 1 - opacity;
   return colorLib(value).alpha(alpha).rgbString();
-}
+};
 
 export const CHART_COLORS = {
   red: 'rgb(255, 99, 132)',
@@ -87,18 +52,5 @@ export const CHART_COLORS = {
   blue: 'rgb(54, 162, 235)',
   purple: 'rgb(153, 102, 255)',
   grey: 'rgb(201, 203, 207)',
+  pink: 'rgb(250, 157, 236)',
 };
-
-const NAMED_COLORS = [
-  CHART_COLORS.red,
-  CHART_COLORS.orange,
-  CHART_COLORS.yellow,
-  CHART_COLORS.green,
-  CHART_COLORS.blue,
-  CHART_COLORS.purple,
-  CHART_COLORS.grey,
-];
-
-export function namedColor(index) {
-  return NAMED_COLORS[index % NAMED_COLORS.length];
-}

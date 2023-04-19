@@ -42,7 +42,7 @@ const createClimbingChartDiv = () => {
   climbingPyramidTitleDiv.classList.add('section-title');
 
   const climbingPyramidTitleHeader = document.createElement('h2');
-  climbingPyramidTitleHeader.textContent = 'Send Pyramid';
+  climbingPyramidTitleHeader.textContent = 'Send Chart';
 
   const loadingDiv = document.createElement('div');
   loadingDiv.setAttribute('id', 'loading');
@@ -83,9 +83,8 @@ if (isProfilePage()) {
       .then((csvData) => {
         hideLoading(loader);
         const parsedData = Papa.parse(csvData, { header: true });
-        console.log(parsedData.data);
 
-        createChart(parsedData);
+        createChart(parsedData.data);
       });
   }
 }

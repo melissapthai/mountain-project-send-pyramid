@@ -1,5 +1,5 @@
 export const CLIMBING_CHART_ID = 'climbingChart';
-export const GRADES = [
+export const ROUTE_GRADES = [
   '3rd',
   '4th',
   '5.0',
@@ -56,4 +56,9 @@ export const GRADES = [
   '5.15d',
 ];
 export const PROTECTION_RATINGS = ['PG13', 'R', 'X'];
-export const SENDS = ['Redpoint', 'Onsight', 'Flash', 'Pinkpoint'];
+export const SENDS = {
+  onsight: 'Onsight',
+  flash: 'Flash',
+  redpoint: 'Redpoint',
+  pinkpoint: 'Pinkpoint',
+};
