@@ -1,3 +1,5 @@
+'use strict';
+
 import Chart from 'chart.js/auto';
 
 import * as ChartUtils from './chartUtils';
@@ -15,7 +17,7 @@ SEND_TYPE_TO_COLOR[SENDS.onsight] = ChartUtils.CHART_COLORS.blue;
 SEND_TYPE_TO_COLOR[SENDS.flash] = ChartUtils.CHART_COLORS.yellow;
 SEND_TYPE_TO_COLOR[SENDS.redpoint] = ChartUtils.CHART_COLORS.red;
 
-const getGrade = (grade) => {
+const cleanGrade = (grade) => {
   /**
    * Climbing grades sometimes have protection ratings on them, ex: '5.9 R'
     For our purposes, we don't really care about this.
@@ -55,7 +57,7 @@ const generateSportDatasets = (data) => {
       style == STYLES.lead &&
       Object.keys(sendMap).includes(leadStyle)
     ) {
-      const grade = getGrade(row['Rating']);
+      const grade = cleanGrade(row['Rating']);
       sendMap[leadStyle].set(grade, sendMap[leadStyle].get(grade) + 1);
     }
   });
@@ -152,7 +154,7 @@ const cleanData = (data) => {
   return cleanedData;
 };
 
-const createChart = (data) => {
+const renderChart = (data) => {
   const cleanedData = cleanData(data);
   const sportChartConfig = generateSportChartConfig(cleanedData);
 
@@ -162,4 +164,4 @@ const createChart = (data) => {
   );
 };
 
-export default createChart;
+export default renderChart;

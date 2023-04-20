@@ -3,7 +3,7 @@
 import './content.css';
 import Papa from 'papaparse';
 
-import createChart from './createChart';
+import renderChart from './sendChart';
 import { CLIMBING_CHART_ID } from './constants.js';
 
 const isProfilePage = () => {
@@ -30,11 +30,11 @@ const getTicksDiv = () => {
     return sections[1];
   }
   console.warn(
-    'Mountain Project - Climbing Pyramid extension: Unable to find ticks!'
+    'Mountain Project - Send Chart extension: Unable to find ticks!'
   );
 };
 
-const createClimbingChartDiv = () => {
+const renderClimbingChartDiv = () => {
   const container = document.createElement('div');
   container.classList.add('section', 'clearfix');
 
@@ -72,7 +72,7 @@ if (isProfilePage()) {
   if (ticksDiv) {
     const url = window.location.href;
     const ticksCsvUrl = url.concat('/tick-export');
-    const climbingChartDiv = createClimbingChartDiv();
+    const climbingChartDiv = renderClimbingChartDiv();
     ticksDiv.insertAdjacentElement('afterend', climbingChartDiv);
 
     const loader = document.querySelector('#loading');
@@ -84,7 +84,7 @@ if (isProfilePage()) {
         hideLoading(loader);
         const parsedData = Papa.parse(csvData, { header: true });
 
-        createChart(parsedData.data);
+        renderChart(parsedData.data);
       });
   }
 }
