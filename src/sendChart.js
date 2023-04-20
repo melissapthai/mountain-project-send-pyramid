@@ -2,7 +2,7 @@
 
 import Chart from 'chart.js/auto';
 
-import * as ChartUtils from './chartUtils';
+import * as ChartUtils from './utils/chartUtils';
 import {
   CLIMBING_CHART_ID,
   PROTECTION_RATINGS,
