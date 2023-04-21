@@ -32,7 +32,7 @@ class Tick {
     this.date = new Date(row['Date']);
     this.route = row['Route'];
     this.rating = row['Rating'].split(' ')[0]; // remove protection ratings (ex: for '5.9 R' we only keep '5.9')
-    this.routeTypes = row['Route Type'].split(',').map((x) => x.trim()); // climbs can be multiple types (ex: Zee Tree is trad and sport)
+    this.routeTypes = row['Route Type'].split(', '); // climbs can be multiple types (ex: Zee Tree is trad and sport)
     this.style = row['Style'] || '';
     this.leadStyle = row['Lead Style'] || '';
     this.sendStyle = '';
@@ -66,7 +66,7 @@ export const preprocessData = (data) => {
 
     // We only care about boulder, sport, and trad climbs.
     // Note that climbs can be categorized as multiple types (ex: 'sport, trad').
-    const routeTypes = row['Route Type'].split(',');
+    const routeTypes = row['Route Type'].split(', ');
     if (!Object.values(ROUTE_TYPES).some((r) => routeTypes.includes(r))) {
       return false;
     }
@@ -93,13 +93,13 @@ export const preprocessData = (data) => {
 
   // If a route has been sent multiple times,
   // remove duplicates by preserving only the 'highest' level send.
-  // Onsight > Flash > Send (boulders only) > Redpoint > Pinkpoint > (everything else)
+  // Onsight > Flash (routes + boulders) > Send (boulders only) > Redpoint > Pinkpoint
   const sendSortOrder = [
-    SENDS.onsight,
-    SENDS.flash,
-    SENDS.send,
-    SENDS.redpoint,
     SENDS.pinkpoint,
+    SENDS.redpoint,
+    SENDS.send,
+    SENDS.flash,
+    SENDS.onsight,
   ];
   data.sort((a, b) => {
     return (
