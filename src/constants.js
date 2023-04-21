@@ -161,9 +161,9 @@ export const ROUTE_TYPES = {
 export const SENDS = {
   onsight: 'Onsight',
   flash: 'Flash',
-  send: 'Send', // for boulders
+  send: 'Send',
   redpoint: 'Redpoint',
-  pinkpoint: 'Pinkpoint', // for trad
+  pinkpoint: 'Pinkpoint',
 };
 export const STYLES = {
   lead: 'Lead',

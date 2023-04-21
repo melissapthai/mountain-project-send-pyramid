@@ -3,6 +3,7 @@
 import Chart from 'chart.js/auto';
 
 import * as ChartUtils from './utils/chartUtils';
+import { preprocessData } from './utils/dataUtils.js';
 import {
   CLIMBING_CHART_ID,
   PROTECTION_RATINGS,
@@ -120,6 +121,44 @@ const generateSportChartConfig = (data) => {
   return sportChartConfig;
 };
 
+const generateChartConfig = (tc, routeType) => {
+  // TODO: fixme
+  const labels = null;
+  const datasets = null;
+
+  const data = { labels, datasets };
+
+  const chartConfig = {
+    type: 'bar',
+    data,
+    options: {
+      indexAxis: 'y',
+      elements: {
+        bar: {
+          borderWidth: 2,
+        },
+      },
+      responsive: true,
+      scales: {
+        x: {
+          stacked: true,
+        },
+        y: {
+          stacked: true,
+        },
+      },
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+      },
+    },
+  };
+
+  return chartConfig;
+};
+
+// TODO: deprecate this
 const cleanData = (data) => {
   // Remove rows that don't contain necessary columns
   data = data.filter(
@@ -154,14 +193,21 @@ const cleanData = (data) => {
   return cleanedData;
 };
 
-const renderChart = (data) => {
-  const cleanedData = cleanData(data);
-  const sportChartConfig = generateSportChartConfig(cleanedData);
+// const renderChart = (data) => {
+//   const cleanedData = cleanData(data);
+//   const sportChartConfig = generateSportChartConfig(cleanedData);
 
-  return new Chart(
-    document.getElementById(CLIMBING_CHART_ID),
-    sportChartConfig
-  );
+//   return new Chart(
+//     document.getElementById(CLIMBING_CHART_ID),
+//     sportChartConfig
+//   );
+// };
+
+const renderChart = (data, routeType) => {
+  const ticksCollection = preprocessData(data);
+  const chartConfig = generateChartConfig(ticksCollection, routeType);
+
+  return new Chart(document.getElementById(CLIMBING_CHART_ID), chartConfig);
 };
 
 export default renderChart;

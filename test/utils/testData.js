@@ -27,3 +27,7 @@ export const duplicateData =
 2021-07-24,"Bombs over Tokyo",5.10c,,,,,,,Lead,Redpoint,Trad,,,
 2019-09-01,"Shangri La",5.11a,,,,,,,Lead,Redpoint,Sport,,,
 2019-09-01,"Shangri La",5.11a,,,,,,,Lead,Redpoint,Sport,,,`);
+
+export const plumbersCrackData = header.concat(
+  `2023-04-21,"Plumbers Crack (North side chimney)","5.8 V0 R",,,,,,,Flash,,Boulder,,,`
+);

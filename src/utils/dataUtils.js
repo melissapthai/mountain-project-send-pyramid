@@ -1,51 +1,6 @@
 import { ROUTE_TYPES, SENDS } from '../constants.js';
-
-class TicksCollection {
-  constructor() {
-    this.boulder = [];
-    this.sport = [];
-    this.trad = [];
-  }
-
-  addTick(tick) {
-    if (tick.routeTypes.includes(ROUTE_TYPES.boulder)) {
-      this.boulder.push(tick);
-    }
-
-    if (tick.routeTypes.includes(ROUTE_TYPES.sport)) {
-      this.sport.push(tick);
-    }
-
-    if (tick.routeTypes.includes(ROUTE_TYPES.trad)) {
-      this.trad.push(tick);
-    }
-  }
-}
-
-class Tick {
-  constructor(row) {
-    if (!row['Date'] || !row['Route'] || !row['Rating'] || !row['Route Type']) {
-      console.error('Invalid tick!');
-      return;
-    }
-
-    this.date = new Date(row['Date']);
-    this.route = row['Route'];
-    this.rating = row['Rating'].split(' ')[0]; // remove protection ratings (ex: for '5.9 R' we only keep '5.9')
-    this.routeTypes = row['Route Type'].split(', '); // climbs can be multiple types (ex: Zee Tree is trad and sport)
-    this.style = row['Style'] || '';
-    this.leadStyle = row['Lead Style'] || '';
-    this.sendStyle = '';
-
-    if (Object.values(SENDS).includes(this.style)) {
-      this.sendStyle = this.style;
-    }
-
-    if (Object.values(SENDS).includes(this.leadStyle)) {
-      this.sendStyle = this.leadStyle;
-    }
-  }
-}
+import Tick from '../models/tick.js';
+import TicksCollection from '../models/ticksCollection.js';
 
 export const preprocessData = (data) => {
   /**
@@ -57,15 +12,18 @@ export const preprocessData = (data) => {
     return new TicksCollection();
   }
 
-  // Remove non-send rows
+  // Only keep rows that satisfy all of these conditions:
+  // - have valid column values
+  // - are boulder/sport/trad climbs
+  // - are sends
   data = data.filter((row) => {
     // Remove invalid rows
-    if (!row['Date'] || !row['Route'] || !row['Route Type'] || !row['Rating']) {
+    if (!row['Route'] || !row['Route Type'] || !row['Rating']) {
       return false;
     }
 
     // We only care about boulder, sport, and trad climbs.
-    // Note that climbs can be categorized as multiple types (ex: 'sport, trad').
+    // Note that climbs can be categorized as multiple types (ex: 'Sport, Trad, Aid').
     const routeTypes = row['Route Type'].split(', ');
     if (!Object.values(ROUTE_TYPES).some((r) => routeTypes.includes(r))) {
       return false;
