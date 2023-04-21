@@ -1,4 +1,4 @@
-import { ROUTE_TYPES, SENDS } from '../constants';
+import { ROUTE_TYPES, SENDS } from '../constants.js';
 
 class TicksCollection {
   constructor() {
@@ -32,7 +32,7 @@ class Tick {
     this.date = new Date(row['Date']);
     this.route = row['Route'];
     this.rating = row['Rating'].split(' ')[0]; // remove protection ratings (ex: for '5.9 R' we only keep '5.9')
-    this.routeTypes = row['Route Type'].split(','); // climbs can be multiple types (ex: Zee Tree is trad and sport)
+    this.routeTypes = row['Route Type'].split(',').map((x) => x.trim()); // climbs can be multiple types (ex: Zee Tree is trad and sport)
     this.style = row['Style'] || '';
     this.leadStyle = row['Lead Style'] || '';
     this.sendStyle = '';

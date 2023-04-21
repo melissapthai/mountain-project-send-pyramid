@@ -63,19 +63,17 @@ export const ROUTE_GRADES = [
 ];
 export const PROTECTION_RATINGS = ['PG13', 'R', 'X'];
 export const ROUTE_TYPES = {
-  // TODO: any more route types? see Route Type col in csv
-  alpine: 'Alpine',
   boulder: 'Boulder',
   trad: 'Trad',
-  tr: 'TR',
   sport: 'Sport',
 };
 export const SENDS = {
   onsight: 'Onsight',
   flash: 'Flash',
+  send: 'Send', // for boulders
   redpoint: 'Redpoint',
+  pinkpoint: 'Pinkpoint', // for trad
 };
 export const STYLES = {
-  // TODO: add other ascent styles (see Style col in csv)
   lead: 'Lead',
 };

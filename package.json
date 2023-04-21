@@ -1,11 +1,13 @@
 {
-  "name": "climbing-pyramid-extension",
+  "name": "mountain-project-send-chart",
   "version": "0.1.0",
   "description": "My Chrome Extension",
   "private": true,
+  "type": "module",
   "scripts": {
     "watch": "webpack --mode=development --watch --config config/webpack.config.js",
     "build": "webpack --mode=production --config config/webpack.config.js",
+    "test": "mocha",
     "pack": "node pack.js",
     "repack": "npm run build && npm run pack",
     "format": "prettier --write --ignore-unknown \"{config,public,src}/**/*.{html,css,js,ts,json}\""
@@ -16,6 +18,7 @@
     "css-loader": "^6.7.3",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^2.7.5",
+    "mocha": "^10.2.0",
     "prettier": "^2.8.7",
     "webpack": "^5.79.0",
     "webpack-cli": "^4.10.0",
