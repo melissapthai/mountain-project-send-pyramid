@@ -1,4 +1,4 @@
-import { ROUTE_TYPES, SENDS } from '../constants.js';
+import { ROUTE_TYPES, SENDS, SEND_SORT_ORDER } from '../constants.js';
 import Tick from '../models/tick.js';
 import TicksCollection from '../models/ticksCollection.js';
 
@@ -29,12 +29,12 @@ export const preprocessData = (data) => {
       return false;
     }
 
-    // Get sends for boulders
+    // Keep row for boulder send
     if (Object.values(SENDS).includes(row['Style'])) {
       return true;
     }
 
-    // Get sends for routes
+    // Keep row for route send
     if (Object.values(SENDS).includes(row['Lead Style'])) {
       return true;
     }
@@ -52,23 +52,16 @@ export const preprocessData = (data) => {
   // If a route has been sent multiple times,
   // remove duplicates by preserving only the 'highest' level send.
   // Onsight > Flash (routes + boulders) > Send (boulders only) > Redpoint > Pinkpoint
-  const sendSortOrder = [
-    SENDS.pinkpoint,
-    SENDS.redpoint,
-    SENDS.send,
-    SENDS.flash,
-    SENDS.onsight,
-  ];
   data.sort((a, b) => {
     return (
       // alphabetize
       a['Route'].localeCompare(b['Route']) ||
-      // sort boulder sends
-      Math.max(sendSortOrder.indexOf(a['Style']), 0) -
-        Math.max(sendSortOrder.indexOf(b['Style']), 0) ||
+      // sort boulder sends; routes style will always be 'Lead'
+      Math.max(SEND_SORT_ORDER.indexOf(a['Style']), 0) -
+        Math.max(SEND_SORT_ORDER.indexOf(b['Style']), 0) ||
       // sort route sends
-      Math.max(sendSortOrder.indexOf(a['Lead Style']), 0) -
-        Math.max(sendSortOrder.indexOf(b['Lead Style']), 0)
+      Math.max(SEND_SORT_ORDER.indexOf(a['Lead Style']), 0) -
+        Math.max(SEND_SORT_ORDER.indexOf(b['Lead Style']), 0)
     );
   });
 

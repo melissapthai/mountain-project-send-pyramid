@@ -152,11 +152,10 @@ export const ROUTE_GRADES = [
   '5.15c/d',
   '5.15d',
 ];
-export const PROTECTION_RATINGS = ['PG13', 'R', 'X'];
 export const ROUTE_TYPES = {
   boulder: 'Boulder',
-  trad: 'Trad',
   sport: 'Sport',
+  trad: 'Trad',
 };
 export const SENDS = {
   onsight: 'Onsight',
@@ -165,6 +164,10 @@ export const SENDS = {
   redpoint: 'Redpoint',
   pinkpoint: 'Pinkpoint',
 };
-export const STYLES = {
-  lead: 'Lead',
-};
+export const SEND_SORT_ORDER = [
+  SENDS.pinkpoint,
+  SENDS.redpoint,
+  SENDS.send,
+  SENDS.flash,
+  SENDS.onsight,
+];

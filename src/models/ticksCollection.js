@@ -36,6 +36,88 @@ export default class TicksCollection {
     }
   }
 
+  getBoulderGradeBoundaries() {
+    let minIndex = 0;
+    let maxIndex = BOULDER_GRADES.length - 1;
+
+    while (!this.boulder.has(BOULDER_GRADES[minIndex])) {
+      minIndex++;
+    }
+
+    while (!this.boulder.has(BOULDER_GRADES[maxIndex])) {
+      maxIndex--;
+    }
+
+    return { minIndex, maxIndex };
+  }
+
+  getSportGradeBoundaries() {
+    let minIndex = 0;
+    let maxIndex = ROUTE_GRADES.length - 1;
+    console.log('tc.sport: ', this.sport);
+
+    while (!this.sport.has(ROUTE_GRADES[minIndex])) {
+      minIndex++;
+    }
+
+    while (!this.sport.has(ROUTE_GRADES[maxIndex])) {
+      maxIndex--;
+    }
+
+    return { minIndex, maxIndex };
+  }
+
+  getTradGradeBoundaries() {
+    let minIndex = 0;
+    let maxIndex = ROUTE_GRADES.length - 1;
+
+    while (!this.trad.has(ROUTE_GRADES[minIndex])) {
+      minIndex++;
+    }
+
+    while (!this.trad.has(ROUTE_GRADES[maxIndex])) {
+      maxIndex--;
+    }
+
+    return { minIndex, maxIndex };
+  }
+
+  getNumBoulderTicksForSendStyleAndGrades(sendStyle, grades) {
+    const tickCounts = [];
+
+    for (let grade of grades) {
+      let ticks = this.boulder.get(grade) || [];
+      ticks = ticks.filter((tick) => tick.sendStyle == sendStyle);
+      tickCounts.push(ticks.length);
+    }
+
+    return tickCounts;
+  }
+
+  getNumSportTicksForSendStyleAndGrades(sendStyle, grades) {
+    const tickCounts = [];
+
+    for (let grade of grades) {
+      let ticks = this.sport.get(grade) || [];
+      ticks = ticks.filter((tick) => tick.sendStyle == sendStyle);
+      tickCounts.push(ticks.length);
+    }
+
+    return tickCounts;
+  }
+
+  getNumTradTicksForSendStyleAndGrades(sendStyle, grades) {
+    const tickCounts = [];
+
+    for (let grade of grades) {
+      let ticks = this.trad.get(grade) || [];
+      ticks = ticks.filter((tick) => tick.sendStyle == sendStyle);
+      tickCounts.push(ticks.length);
+    }
+
+    return tickCounts;
+  }
+
   getNumBoulderTicks() {
     return [...this.boulder.values()].reduce((acc, cur) => acc + cur.length, 0);
   }

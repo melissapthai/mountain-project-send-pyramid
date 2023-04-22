@@ -38,13 +38,11 @@ export default class Tick {
     const ratingSplit = ratingString.split(' ');
     const ratings = [];
 
-    ratingSplit.forEach((r) => {
-      if (ROUTE_GRADES.includes(r)) {
-        ratings.push(r);
-      } else if (BOULDER_GRADES.includes(r)) {
+    for (let r of ratingSplit) {
+      if (ROUTE_GRADES.concat(BOULDER_GRADES).includes(r)) {
         ratings.push(r);
       }
-    });
+    }
 
     return ratings;
   }

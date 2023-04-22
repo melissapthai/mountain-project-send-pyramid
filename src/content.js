@@ -4,7 +4,7 @@ import './content.css';
 import Papa from 'papaparse';
 
 import renderChart from './sendChart';
-import { CLIMBING_CHART_ID } from './constants.js';
+import { CLIMBING_CHART_ID, ROUTE_TYPES } from './constants.js';
 
 const isProfilePage = () => {
   // MP profile page url looks like this:
@@ -30,7 +30,7 @@ const getTicksDiv = () => {
     return sections[1];
   }
   console.warn(
-    'Mountain Project - Send Chart extension: Unable to find ticks!'
+    'Mountain Project - Send Chart extension: Unable to find ticks section!'
   );
 };
 
@@ -84,7 +84,7 @@ if (isProfilePage()) {
         hideLoading(loader);
         const parsedData = Papa.parse(csvData, { header: true });
 
-        renderChart(parsedData.data);
+        renderChart(parsedData.data, ROUTE_TYPES.sport);
       });
   }
 }
