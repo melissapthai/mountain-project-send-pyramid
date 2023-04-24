@@ -129,7 +129,6 @@ const generateChartConfig = (tc, routeType) => {
 
 const renderChart = (canvasId, routeType, ticksCollection) => {
   const chartConfig = generateChartConfig(ticksCollection, routeType);
-
   return new Chart(document.getElementById(canvasId), chartConfig);
 };
 

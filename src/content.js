@@ -43,8 +43,8 @@ const getTicksDiv = () => {
     // We only care about the Ticks section.
     return sections[1];
   }
-  console.warn(
-    'Mountain Project - Send Chart extension: Unable to find ticks section!'
+  console.error(
+    'Mountain Project - Send Chart extension: Unable to render send chart!'
   );
 };
 
@@ -73,10 +73,6 @@ const renderClimbingChartContainer = () => {
     chartCanvases.push(canvas);
   }
 
-  if (chartCanvases.length > 0) {
-    chartCanvases[0].classList.add('active');
-  }
-
   sendChartTitleContainer.appendChild(sendChartTitleHeader);
   container.appendChild(sendChartTitleContainer);
   container.appendChild(loadingDiv);
@@ -88,13 +84,9 @@ const renderClimbingChartContainer = () => {
 };
 
 const handleTabClick = (routeType) => {
-  const tabs = document.querySelectorAll('.tab');
-  for (let tab of tabs) {
-    tab.classList.remove('active');
-  }
-  const canvases = document.querySelectorAll('.chartCanvas');
-  for (let canvas of canvases) {
-    canvas.classList.remove('active');
+  const elements = document.querySelectorAll('.tab, .chartCanvas');
+  for (let el of elements) {
+    el.classList.remove('active');
   }
 
   const selectedTab = document.getElementById(
@@ -111,7 +103,6 @@ const renderTabs = () => {
   const tabsContainer = document.createElement('div');
   tabsContainer.classList.add('tabs-container');
 
-  let tabs = [];
   for (let routeType of Object.values(ROUTE_TYPES)) {
     const tab = document.createElement('div');
     tab.setAttribute('id', ROUTE_TYPE_TO_ELEMENT_ID[routeType].tab);
@@ -120,19 +111,17 @@ const renderTabs = () => {
     tab.addEventListener('click', () => {
       handleTabClick(routeType);
     });
-    tabs.push(tab);
-  }
-
-  if (tabs.length > 0) {
-    tabs[0].classList.add('active');
-  }
-
-  for (let tab of tabs) {
     tabsContainer.appendChild(tab);
   }
 
   const sendChartTitle = document.getElementById('sendChartTitle');
   sendChartTitle.insertAdjacentElement('afterend', tabsContainer);
+};
+
+const setActiveTab = (routeType) => {
+  const element = ROUTE_TYPE_TO_ELEMENT_ID[routeType];
+  document.getElementById(element.tab).classList.add('active');
+  document.getElementById(element.canvas).classList.add('active');
 };
 
 const displayLoading = (loader) => {
@@ -160,6 +149,7 @@ if (isProfilePage()) {
       .then((csvData) => {
         hideLoading(loader);
         renderTabs();
+        setActiveTab(ROUTE_TYPES.sport);
 
         const ticksCollection = preprocessData(csvData);
         for (let routeType of Object.values(ROUTE_TYPES)) {
