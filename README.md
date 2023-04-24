@@ -1,13 +1,8 @@
 # <img src="public/icons/icon-48.png" width="45" align="left"> Mountain Project - Send Chart
 
-![image](https://user-images.githubusercontent.com/3220734/233228078-af2db5ac-4b4d-4706-8a33-8be95a0255ef.png)
+![image](https://user-images.githubusercontent.com/3220734/234119314-422f6fb0-00ae-4cb3-b63c-b9116748eb29.png)
 
-
-View your rock climbing sends on [Mountain Project](https://www.mountainproject.com/), organized by grade and send type (redpoint, onsight, or flash).
-
-## Features
-
-- TODO: fill this out
+View your rock climbing sends on [Mountain Project](https://www.mountainproject.com/), organized by climb type (boulder, sport, or trad climbs).
 
 ## Install
 
