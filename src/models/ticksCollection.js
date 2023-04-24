@@ -54,7 +54,6 @@ export default class TicksCollection {
   getSportGradeBoundaries() {
     let minIndex = 0;
     let maxIndex = ROUTE_GRADES.length - 1;
-    console.log('tc.sport: ', this.sport);
 
     while (!this.sport.has(ROUTE_GRADES[minIndex])) {
       minIndex++;

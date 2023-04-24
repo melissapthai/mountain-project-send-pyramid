@@ -1,12 +1,28 @@
+import Papa from 'papaparse';
+
 import { ROUTE_TYPES, SENDS, SEND_SORT_ORDER } from '../constants.js';
 import Tick from '../models/tick.js';
 import TicksCollection from '../models/ticksCollection.js';
 
-export const preprocessData = (data) => {
+export const preprocessData = (rawData) => {
   /**
    * Converts raw data from ticks csv to a TicksCollection object.
    * @returns TicksCollection object
    */
+
+  const parseResult = Papa.parse(rawData, {
+    header: true,
+    skipEmptyLines: true,
+  });
+
+  if (parseResult.errors.length > 0) {
+    console.error(
+      'Mountain Project - Send Chart extension: Unable to parse ticks: ',
+      ...parseResult.errors
+    );
+  }
+
+  let data = parseResult.data;
 
   if (!data || data.length == 0) {
     return new TicksCollection();

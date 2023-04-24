@@ -3,10 +3,8 @@
 import Chart from 'chart.js/auto';
 
 import * as ChartUtils from './utils/chartUtils';
-import { preprocessData } from './utils/dataUtils.js';
 import {
   BOULDER_GRADES,
-  CLIMBING_CHART_ID,
   ROUTE_GRADES,
   ROUTE_TYPES,
   SENDS,
@@ -128,20 +126,11 @@ const generateChartConfig = (tc, routeType) => {
 
   return chartConfig;
 };
-//   const cleanedData = cleanData(data);
-//   const sportChartConfig = generateSportChartConfig(cleanedData);
 
-//   return new Chart(
-//     document.getElementById(CLIMBING_CHART_ID),
-//     sportChartConfig
-//   );
-// };
-
-const renderChart = (data, routeType) => {
-  const ticksCollection = preprocessData(data);
+const renderChart = (canvasId, routeType, ticksCollection) => {
   const chartConfig = generateChartConfig(ticksCollection, routeType);
 
-  return new Chart(document.getElementById(CLIMBING_CHART_ID), chartConfig);
+  return new Chart(document.getElementById(canvasId), chartConfig);
 };
 
 export default renderChart;

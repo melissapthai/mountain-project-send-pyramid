@@ -1,4 +1,3 @@
-export const CLIMBING_CHART_ID = 'climbingChart';
 export const BOULDER_GRADES = [
   'V-easy',
   'V0-',
