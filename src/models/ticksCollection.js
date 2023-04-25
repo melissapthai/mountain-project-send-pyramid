@@ -7,6 +7,22 @@ export default class TicksCollection {
     this.trad = new Map();
   }
 
+  #getTicksForRouteType(routeType) {
+    switch (routeType) {
+      case ROUTE_TYPES.boulder:
+        return this.boulder;
+      case ROUTE_TYPES.sport:
+        return this.sport;
+      case ROUTE_TYPES.trad:
+        return this.trad;
+      default:
+        console.error(
+          'Mountain Project - Send Chart extension: unable to get ticks for ',
+          routeType
+        );
+    }
+  }
+
   addTick(tick) {
     if (tick.routeTypes.includes(ROUTE_TYPES.boulder)) {
       const rating = tick.ratings.find((r) => BOULDER_GRADES.includes(r));
@@ -36,96 +52,41 @@ export default class TicksCollection {
     }
   }
 
-  getBoulderGradeBoundaries() {
+  getGradeBoundaries(routeType) {
+    let grades =
+      routeType == ROUTE_TYPES.boulder ? BOULDER_GRADES : ROUTE_GRADES;
     let minIndex = 0;
-    let maxIndex = BOULDER_GRADES.length - 1;
+    let maxIndex = grades.length - 1;
+    let ticks = this.#getTicksForRouteType(routeType);
 
-    while (!this.boulder.has(BOULDER_GRADES[minIndex])) {
+    while (!ticks.has(grades[minIndex])) {
       minIndex++;
     }
 
-    while (!this.boulder.has(BOULDER_GRADES[maxIndex])) {
+    while (!ticks.has(grades[maxIndex])) {
       maxIndex--;
     }
 
     return { minIndex, maxIndex };
   }
 
-  getSportGradeBoundaries() {
-    let minIndex = 0;
-    let maxIndex = ROUTE_GRADES.length - 1;
-
-    while (!this.sport.has(ROUTE_GRADES[minIndex])) {
-      minIndex++;
-    }
-
-    while (!this.sport.has(ROUTE_GRADES[maxIndex])) {
-      maxIndex--;
-    }
-
-    return { minIndex, maxIndex };
-  }
-
-  getTradGradeBoundaries() {
-    let minIndex = 0;
-    let maxIndex = ROUTE_GRADES.length - 1;
-
-    while (!this.trad.has(ROUTE_GRADES[minIndex])) {
-      minIndex++;
-    }
-
-    while (!this.trad.has(ROUTE_GRADES[maxIndex])) {
-      maxIndex--;
-    }
-
-    return { minIndex, maxIndex };
-  }
-
-  getNumBoulderTicksForSendStyleAndGrades(sendStyle, grades) {
+  getNumTicksForSendStyleAndGrade(routeType, sendStyle, grades) {
     const tickCounts = [];
+    const ticks = this.#getTicksForRouteType(routeType);
 
     for (let grade of grades) {
-      let ticks = this.boulder.get(grade) || [];
-      ticks = ticks.filter((tick) => tick.sendStyle == sendStyle);
-      tickCounts.push(ticks.length);
+      const ticksForGrade = ticks.get(grade) || [];
+      const ticksForGradeAndSendStyle = ticksForGrade.filter(
+        (tick) => tick.sendStyle == sendStyle
+      );
+      tickCounts.push(ticksForGradeAndSendStyle.length);
     }
 
     return tickCounts;
   }
 
-  getNumSportTicksForSendStyleAndGrades(sendStyle, grades) {
-    const tickCounts = [];
-
-    for (let grade of grades) {
-      let ticks = this.sport.get(grade) || [];
-      ticks = ticks.filter((tick) => tick.sendStyle == sendStyle);
-      tickCounts.push(ticks.length);
-    }
-
-    return tickCounts;
-  }
-
-  getNumTradTicksForSendStyleAndGrades(sendStyle, grades) {
-    const tickCounts = [];
-
-    for (let grade of grades) {
-      let ticks = this.trad.get(grade) || [];
-      ticks = ticks.filter((tick) => tick.sendStyle == sendStyle);
-      tickCounts.push(ticks.length);
-    }
-
-    return tickCounts;
-  }
-
-  getNumBoulderTicks() {
-    return [...this.boulder.values()].reduce((acc, cur) => acc + cur.length, 0);
-  }
-
-  getNumSportTicks() {
-    return [...this.sport.values()].reduce((acc, cur) => acc + cur.length, 0);
-  }
-
-  getNumTradTicks() {
-    return [...this.trad.values()].reduce((acc, cur) => acc + cur.length, 0);
+  getNumTicks(routeType) {
+    const ticks = this.#getTicksForRouteType(routeType);
+    return [...ticks.values()].reduce((acc, cur) => acc + cur.length, 0);
   }
 }
