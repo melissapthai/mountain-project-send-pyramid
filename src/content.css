@@ -33,11 +33,11 @@
   border-radius: 15px;
 }
 
-.chartCanvas {
+.chart-canvas {
   display: none !important;
 }
 
-.chartCanvas.active {
+.chart-canvas.active {
   display: block !important;
 }
 

@@ -55,7 +55,7 @@ const renderClimbingChartContainer = () => {
 
   // Chart title
   const sendChartTitleContainer = document.createElement('div');
-  sendChartTitleContainer.setAttribute('id', 'sendChartTitle');
+  sendChartTitleContainer.setAttribute('id', 'send-chart-title');
   sendChartTitleContainer.classList.add('section-title');
 
   const sendChartTitleHeader = document.createElement('h2');
@@ -70,7 +70,7 @@ const renderClimbingChartContainer = () => {
   for (let routeType of Object.values(ROUTE_TYPES)) {
     const canvas = document.createElement('canvas');
     canvas.setAttribute('id', ROUTE_TYPE_TO_ELEMENT_ID[routeType].canvas);
-    canvas.classList.add('chartCanvas');
+    canvas.classList.add('chart-canvas');
     chartCanvases.push(canvas);
   }
 
@@ -85,7 +85,7 @@ const renderClimbingChartContainer = () => {
 };
 
 const setActiveTab = (routeType) => {
-  const elements = document.querySelectorAll('.tab, .chartCanvas');
+  const elements = document.querySelectorAll('.tab, .chart-canvas');
   for (let el of elements) {
     el.classList.remove('active');
   }
@@ -118,7 +118,7 @@ const renderTabs = () => {
     tabsContainer.appendChild(tab);
   }
 
-  const sendChartTitle = document.getElementById('sendChartTitle');
+  const sendChartTitle = document.getElementById('send-chart-title');
   sendChartTitle.insertAdjacentElement('afterend', tabsContainer);
 };
 
