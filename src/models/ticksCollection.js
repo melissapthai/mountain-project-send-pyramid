@@ -17,7 +17,7 @@ export default class TicksCollection {
         return this.trad;
       default:
         console.error(
-          'Mountain Project - Send Chart extension: unable to get ticks for ',
+          'Mountain Project Send Pyramid extension: unable to get ticks for ',
           routeType
         );
     }

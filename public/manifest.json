@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Mountain Project - Send Chart",
+  "name": "Mountain Project Send Pyramid",
   "version": "0.1.0",
   "description": "View your send chart using Mountain Project ticks",
   "icons": {
@@ -10,7 +10,7 @@
     "128": "icons/icon-128.png"
   },
   "action": {
-    "default_title": "Mountain Project - Send Chart"
+    "default_title": "Mountain Project Send Pyramid"
   },
   "permissions": [
     "storage"

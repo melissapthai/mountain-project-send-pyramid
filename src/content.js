@@ -44,7 +44,7 @@ const getTicksDiv = () => {
     return sections[1];
   }
   console.error(
-    'Mountain Project - Send Chart extension: Unable to render send chart!'
+    'Mountain Project Send Pyramid extension: Unable to render send pyramid!'
   );
 };
 
@@ -58,7 +58,7 @@ const renderClimbingChartContainer = () => {
   sendChartTitleContainer.classList.add('section-title');
 
   const sendChartTitleHeader = document.createElement('h2');
-  sendChartTitleHeader.textContent = 'Send Chart';
+  sendChartTitleHeader.textContent = 'Send Pyramid';
 
   // Loading animation
   const loadingDiv = document.createElement('div');

@@ -17,7 +17,7 @@ export const preprocessData = (rawData) => {
 
   if (parseResult.errors.length > 0) {
     console.error(
-      'Mountain Project - Send Chart extension: Unable to parse ticks: ',
+      'Mountain Project Send Pyramid extension: Unable to parse ticks: ',
       ...parseResult.errors
     );
   }
