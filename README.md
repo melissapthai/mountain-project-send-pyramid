@@ -1,6 +1,6 @@
-# <img src="public/icons/icon-48.png" width="45" align="left"> Mountain Project - Send Pyramid
+# <img src="public/icons/icon-48.png" width="45" align="left"> Mountain Project Send Pyramid
 
-![image](https://user-images.githubusercontent.com/3220734/234119314-422f6fb0-00ae-4cb3-b63c-b9116748eb29.png)
+![image](https://user-images.githubusercontent.com/3220734/234691712-bd5f55c5-2240-4b07-868f-4a48363f4fd0.png)
 
 View your rock climbing sends on [Mountain Project](https://www.mountainproject.com/), organized by climb type (boulder, sport, or trad climbs).
 
@@ -38,7 +38,7 @@ You can also run a suite of other nifty commands to make development easier, jus
 4. Load the app into Chrome:
 
    a) Open **chrome://extensions**
-
+   
    b) Check the **Developer mode checkbox**
 
    c) Click on the **Load unpacked extension** button
