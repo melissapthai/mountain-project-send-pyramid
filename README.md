@@ -21,8 +21,8 @@ npm install -g chrome-extension-cli
 2. Clone this repository:
 
 ```
-git clone https://github.com/melissapthai/mountain-project-send-chart.git
-cd mountain-project-send-chart
+git clone https://github.com/melissapthai/mountain-project-send-pyramid.git
+cd mountain-project-send-pyramid
 ```
 
 3. Install dependencies, and build the app to get it ready to add to Chrome:
@@ -38,12 +38,12 @@ You can also run a suite of other nifty commands to make development easier, jus
 4. Load the app into Chrome:
 
    a) Open **chrome://extensions**
-   
+
    b) Check the **Developer mode checkbox**
 
    c) Click on the **Load unpacked extension** button
 
-   d) Select the folder **mountain-project-send-chart/build**
+   d) Select the folder **mountain-project-send-pyramid/build**
 
 And that's it!
 
