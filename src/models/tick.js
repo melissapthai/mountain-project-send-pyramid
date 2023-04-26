@@ -9,7 +9,7 @@ export default class Tick {
 
     this.date = new Date(row['Date']);
     this.route = row['Route'];
-    this.ratings = this.getRatings(row['Rating']); // climbs can be multiple ratings (ex: Plumber's Crack is 5.8 V0)
+    this.ratings = this.#getRatings(row['Rating']); // climbs can be multiple ratings (ex: Plumber's Crack is 5.8 V0)
     this.routeTypes = row['Route Type'].split(', '); // climbs can be multiple types (ex: Zee Tree is trad and sport)
     this.style = row['Style'] || '';
     this.leadStyle = row['Lead Style'] || '';
@@ -24,7 +24,7 @@ export default class Tick {
     }
   }
 
-  getRatings(ratingString) {
+  #getRatings(ratingString) {
     /**
      * Sometimes ratings are some combination of rock/boulder/aid/mixed/ice/snow/protection rating:
      * Royal Arches: '5.10a/b A0' --> set ratings to ['5.10a/b']

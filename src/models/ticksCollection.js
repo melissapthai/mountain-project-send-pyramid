@@ -24,6 +24,11 @@ export default class TicksCollection {
   }
 
   addTick(tick) {
+    // Only add the tick if it's a send
+    if (!tick.sendStyle) {
+      return;
+    }
+
     if (tick.routeTypes.includes(ROUTE_TYPES.boulder)) {
       const rating = tick.ratings.find((r) => BOULDER_GRADES.includes(r));
       if (!this.boulder.has(rating)) {

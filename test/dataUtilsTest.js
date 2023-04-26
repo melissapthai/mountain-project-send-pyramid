@@ -1,9 +1,9 @@
 import assert from 'assert';
-import Papa from 'papaparse';
 
 import { preprocessData } from '../src/utils/dataUtils.js';
 import {
   duplicateData,
+  emptyData,
   happyPathData,
   nonSendData,
   plumbersCrackData,
@@ -15,20 +15,14 @@ import { ROUTE_TYPES, SENDS } from '../src/constants.js';
 describe('dateUtils', function () {
   describe('#preprocessData()', function () {
     it('should return an empty TicksCollection if there is no data', function () {
-      const tcEmptyData = preprocessData([]);
+      const tcEmptyData = preprocessData(emptyData);
       assert.equal(tcEmptyData.getNumTicks(ROUTE_TYPES.boulder), 0);
       assert.equal(tcEmptyData.getNumTicks(ROUTE_TYPES.sport), 0);
       assert.equal(tcEmptyData.getNumTicks(ROUTE_TYPES.trad), 0);
-
-      const tcNullData = preprocessData(null);
-      assert.equal(tcNullData.getNumTicks(ROUTE_TYPES.boulder), 0);
-      assert.equal(tcNullData.getNumTicks(ROUTE_TYPES.sport), 0);
-      assert.equal(tcNullData.getNumTicks(ROUTE_TYPES.trad), 0);
     });
 
     it('should create correct TicksCollection for happy path data', function () {
-      const parsedData = Papa.parse(happyPathData, { header: true });
-      const tc = preprocessData(parsedData.data);
+      const tc = preprocessData(happyPathData);
 
       assert.equal(tc.getNumTicks(ROUTE_TYPES.boulder), 1);
       assert.equal(tc.getNumTicks(ROUTE_TYPES.sport), 1);
@@ -36,8 +30,7 @@ describe('dateUtils', function () {
     });
 
     it('should remove non-send ticks', function () {
-      const parsedData = Papa.parse(nonSendData, { header: true });
-      const tc = preprocessData(parsedData.data);
+      const tc = preprocessData(nonSendData);
 
       assert.equal(tc.getNumTicks(ROUTE_TYPES.boulder), 0);
       assert.equal(tc.getNumTicks(ROUTE_TYPES.sport), 0);
@@ -45,8 +38,7 @@ describe('dateUtils', function () {
     });
 
     it('should correctly categorize climbs with multiple route types (sport, trad)', function () {
-      const parsedData = Papa.parse(sportTradData, { header: true });
-      const tc = preprocessData(parsedData.data);
+      const tc = preprocessData(sportTradData);
 
       assert.equal(tc.getNumTicks(ROUTE_TYPES.boulder), 0);
       assert.equal(tc.getNumTicks(ROUTE_TYPES.sport), 1);
@@ -54,8 +46,7 @@ describe('dateUtils', function () {
     });
 
     it('should correctly categorize climbs with multiple route types (sport, TR)', function () {
-      const parsedData = Papa.parse(sportTrData, { header: true });
-      const tc = preprocessData(parsedData.data);
+      const tc = preprocessData(sportTrData);
 
       assert.equal(tc.getNumTicks(ROUTE_TYPES.boulder), 0);
       assert.equal(tc.getNumTicks(ROUTE_TYPES.sport), 1);
@@ -63,8 +54,7 @@ describe('dateUtils', function () {
     });
 
     it('should correctly handle duplicate routes', function () {
-      const parsedData = Papa.parse(duplicateData, { header: true });
-      const tc = preprocessData(parsedData.data);
+      const tc = preprocessData(duplicateData);
 
       assert.equal(tc.getNumTicks(ROUTE_TYPES.boulder), 0);
 
@@ -80,9 +70,8 @@ describe('dateUtils', function () {
       assert.equal(tc.trad.get('5.10c')[1].sendStyle, SENDS.redpoint);
     });
 
-    it('should correctly handle odd ratings', function () {
-      const parsedData = Papa.parse(plumbersCrackData, { header: true });
-      const tc = preprocessData(parsedData.data);
+    it('should correctly handle mixed route/boulder ratings', function () {
+      const tc = preprocessData(plumbersCrackData);
 
       assert.equal(tc.getNumTicks(ROUTE_TYPES.boulder), 1);
       assert.equal(tc.getNumTicks(ROUTE_TYPES.sport), 0);
