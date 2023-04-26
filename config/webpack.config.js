@@ -12,6 +12,9 @@ const config = (env, argv) =>
       content: PATHS.src + '/content.js',
     },
     devtool: argv.mode === 'production' ? false : 'source-map',
+    experiments: {
+      topLevelAwait: true,
+    },
   });
 
 module.exports = config;

@@ -6,6 +6,7 @@ import renderChart from './sendChart';
 import { ROUTE_TYPES } from './constants.js';
 import { preprocessData } from './utils/dataUtils';
 
+const localStorageActiveTabKey = 'climbingPyramid.activeTab';
 const ROUTE_TYPE_TO_ELEMENT_ID = {};
 ROUTE_TYPE_TO_ELEMENT_ID[ROUTE_TYPES.boulder] = {
   tab: 'boulderTab',
@@ -83,7 +84,7 @@ const renderClimbingChartContainer = () => {
   return container;
 };
 
-const handleTabClick = (routeType) => {
+const setActiveTab = (routeType) => {
   const elements = document.querySelectorAll('.tab, .chartCanvas');
   for (let el of elements) {
     el.classList.remove('active');
@@ -97,6 +98,9 @@ const handleTabClick = (routeType) => {
   );
   selectedTab.classList.add('active');
   canvas.classList.add('active');
+
+  // Remember selected tab
+  localStorage.setItem(localStorageActiveTabKey, routeType);
 };
 
 const renderTabs = () => {
@@ -109,19 +113,13 @@ const renderTabs = () => {
     tab.classList.add('tab');
     tab.textContent = routeType;
     tab.addEventListener('click', () => {
-      handleTabClick(routeType);
+      setActiveTab(routeType);
     });
     tabsContainer.appendChild(tab);
   }
 
   const sendChartTitle = document.getElementById('sendChartTitle');
   sendChartTitle.insertAdjacentElement('afterend', tabsContainer);
-};
-
-const setActiveTab = (routeType) => {
-  const element = ROUTE_TYPE_TO_ELEMENT_ID[routeType];
-  document.getElementById(element.tab).classList.add('active');
-  document.getElementById(element.canvas).classList.add('active');
 };
 
 const displayLoading = (loader) => {
@@ -144,21 +142,22 @@ if (isProfilePage()) {
     const loader = document.querySelector('#loading');
     displayLoading(loader);
 
-    fetch(ticksCsvUrl)
-      .then((response) => response.text())
-      .then((csvData) => {
-        hideLoading(loader);
-        renderTabs();
-        setActiveTab(ROUTE_TYPES.sport);
+    const response = await fetch(ticksCsvUrl);
+    const csvData = await response.text();
+    const activeTab =
+      localStorage.getItem(localStorageActiveTabKey) || ROUTE_TYPES.sport;
 
-        const ticksCollection = preprocessData(csvData);
-        for (let routeType of Object.values(ROUTE_TYPES)) {
-          renderChart(
-            ROUTE_TYPE_TO_ELEMENT_ID[routeType].canvas,
-            routeType,
-            ticksCollection
-          );
-        }
-      });
+    hideLoading(loader);
+    renderTabs();
+    setActiveTab(activeTab);
+
+    const ticksCollection = preprocessData(csvData);
+    for (let routeType of Object.values(ROUTE_TYPES)) {
+      renderChart(
+        ROUTE_TYPE_TO_ELEMENT_ID[routeType].canvas,
+        routeType,
+        ticksCollection
+      );
+    }
   }
 }
