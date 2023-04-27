@@ -6,7 +6,7 @@ View your rock climbing sends on [Mountain Project](https://www.mountainproject.
 
 ## Install
 
-[**Chrome** extension]() <!-- TODO: Add chrome extension link inside parenthesis -->
+[**Chrome** extension](https://chrome.google.com/webstore/detail/mountain-project-send-pyr/fdnfbapicfkfkplchkelkecchbcniaie)
 
 ## Contribution
 
