@@ -1,9 +1,9 @@
 'use strict';
 
-const { merge } = require('webpack-merge');
+import { merge } from 'webpack-merge';
 
-const common = require('./webpack.common.js');
-const PATHS = require('./paths');
+import common from './webpack.common.js';
+import PATHS from './paths.js';
 
 // Merge webpack configuration files
 const config = (env, argv) =>
@@ -17,4 +17,4 @@ const config = (env, argv) =>
     },
   });
 
-module.exports = config;
+export default config;

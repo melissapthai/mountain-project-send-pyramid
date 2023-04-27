@@ -1,7 +1,7 @@
 const header =
   'Date,Route,Rating,Notes,URL,Pitches,Location,"Avg Stars","Your Stars",Style,"Lead Style","Route Type","Your Rating",Length,"Rating Code"\n';
 
-export const emptyData = '';
+export const emptyData = ',';
 
 export const happyPathData =
   header.concat(`2023-04-20,Some Sport Climb,5.11a,,,,,,,Lead,Onsight,Sport,,,

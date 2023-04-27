@@ -16,7 +16,7 @@ describe('ticksCollection', function () {
   const sportBoulderTickConfig = new Map([
     ['Date', '2023-01-01'],
     ['Route', 'Sport and Boulder Route'],
-    ['Rating', '5.8, V0'],
+    ['Rating', '5.8 V0'],
     ['Route Type', 'Sport, Boulder'],
     ['Style', 'Send'],
   ]);
@@ -43,7 +43,7 @@ describe('ticksCollection', function () {
   const tradNonSendTick = new Tick(Object.fromEntries(tradNonSendConfig));
 
   describe('#addTick', function () {
-    it('correct adds a tick to a tick collection', function () {
+    it('correctly adds a tick to a tick collection', function () {
       const tc = new TicksCollection();
 
       tc.addTick(sportTick);

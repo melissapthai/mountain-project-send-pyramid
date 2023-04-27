@@ -1,6 +1,6 @@
-const { readFileSync, existsSync, mkdirSync } = require('fs');
-const { parse, resolve } = require('path');
-const AdmZip = require('adm-zip');
+import { readFileSync, existsSync, mkdirSync } from 'fs';
+import { parse, resolve } from 'path';
+import AdmZip from 'adm-zip';
 
 try {
   const { base } = parse(__dirname);

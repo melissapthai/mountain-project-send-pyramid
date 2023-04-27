@@ -1,4 +1,9 @@
-import { BOULDER_GRADES, ROUTE_GRADES, SENDS } from '../constants.js';
+import {
+  BOULDER_GRADES,
+  ROUTE_GRADES,
+  ROUTE_TYPES,
+  SENDS,
+} from '../constants.js';
 
 export default class Tick {
   constructor(row) {
@@ -10,7 +15,7 @@ export default class Tick {
     this.date = new Date(row['Date']);
     this.route = row['Route'];
     this.ratings = this.#getRatings(row['Rating']); // climbs can be multiple ratings (ex: Plumber's Crack is 5.8 V0)
-    this.routeTypes = row['Route Type'].split(', '); // climbs can be multiple types (ex: Zee Tree is trad and sport)
+    this.routeTypes = this.#getRouteTypes(row['Route Type']); // climbs can be multiple types (ex: Zee Tree is trad and sport)
     this.style = row['Style'] || '';
     this.leadStyle = row['Lead Style'] || '';
     this.sendStyle = '';
@@ -22,6 +27,19 @@ export default class Tick {
     if (Object.values(SENDS).includes(this.leadStyle)) {
       this.sendStyle = this.leadStyle;
     }
+  }
+
+  #getRouteTypes(routeTypesString) {
+    /**
+     * Set the routeTypes attribute to an array of route types corresponding to the given string.
+     * Ignore route types that aren't Boulder/Sport/Trad climbs (ex: for a trad/aid climb, we only consider it a trad climd).
+     *
+     * @returns array of strings
+     */
+
+    return routeTypesString
+      .split(', ')
+      .filter((routeType) => Object.values(ROUTE_TYPES).includes(routeType));
   }
 
   #getRatings(ratingString) {

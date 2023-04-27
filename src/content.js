@@ -2,9 +2,9 @@
 
 import './content.css';
 
-import renderChart from './sendChart';
+import renderChart from './sendChart.js';
 import { ROUTE_TYPES } from './constants.js';
-import { preprocessData } from './utils/dataUtils';
+import { preprocessData } from './utils/dataUtils.js';
 
 const localStorageActiveTabKey = 'climbingPyramid.activeTab';
 const ROUTE_TYPE_TO_ELEMENT_ID = {};

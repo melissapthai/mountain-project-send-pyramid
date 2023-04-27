@@ -2,7 +2,7 @@
 
 import Chart from 'chart.js/auto';
 
-import * as ChartUtils from './utils/chartUtils';
+import * as ChartUtils from './utils/chartUtils.js';
 import {
   BOULDER_GRADES,
   ROUTE_GRADES,
