@@ -132,6 +132,7 @@ const onDateRangeSelectChange = (e) => {
 
 const renderDateRangeSelect = (ticksCollection) => {
   const dateRangeSelect = document.createElement('select');
+  dateRangeSelect.setAttribute('id', 'date-range-select');
   dateRangeSelect.addEventListener('change', onDateRangeSelectChange);
 
   const last12MonthsOption = document.createElement('option');
@@ -199,12 +200,14 @@ if (isProfilePage()) {
     const ticksCollection = preprocessData(csvData);
 
     renderDateRangeSelect(ticksCollection);
+    const dateRange = document.getElementById('date-range-select').value;
 
     for (let routeType of Object.values(ROUTE_TYPES)) {
       renderChart(
         ROUTE_TYPE_TO_ELEMENT_ID[routeType].canvas,
         routeType,
-        ticksCollection
+        ticksCollection,
+        dateRange
       );
     }
   }

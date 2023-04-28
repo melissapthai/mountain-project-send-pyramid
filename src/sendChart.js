@@ -17,7 +17,7 @@ SEND_TYPE_TO_COLOR[SENDS.send] = ChartUtils.CHART_COLORS.green;
 SEND_TYPE_TO_COLOR[SENDS.redpoint] = ChartUtils.CHART_COLORS.red;
 SEND_TYPE_TO_COLOR[SENDS.pinkpoint] = ChartUtils.CHART_COLORS.pink;
 
-const generateChartConfig = (tc, routeType) => {
+const generateChartConfig = (tc, routeType, dateRange) => {
   const boundaries = tc.getGradeBoundaries(routeType);
   const grades =
     routeType == ROUTE_TYPES.boulder
@@ -26,10 +26,11 @@ const generateChartConfig = (tc, routeType) => {
 
   let datasets = [];
   for (let sendStyle of Object.values(SENDS)) {
-    const data = tc.getNumTicksForSendStyleAndGrade(
+    const data = tc.getNumTicksForStyleGradesDateRange(
       routeType,
       sendStyle,
-      grades
+      grades,
+      dateRange
     );
     const dataset = {
       label: sendStyle,
@@ -75,10 +76,12 @@ const generateChartConfig = (tc, routeType) => {
 };
 
 const renderChart = (canvasId, routeType, ticksCollection, dateRange) => {
-  if (!dateRange) {
-    const chartConfig = generateChartConfig(ticksCollection, routeType);
-    return new Chart(document.getElementById(canvasId), chartConfig);
-  }
+  const chartConfig = generateChartConfig(
+    ticksCollection,
+    routeType,
+    dateRange
+  );
+  return new Chart(document.getElementById(canvasId), chartConfig);
 };
 
 export default renderChart;

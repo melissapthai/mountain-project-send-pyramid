@@ -1,4 +1,10 @@
-import { BOULDER_GRADES, ROUTE_GRADES, ROUTE_TYPES } from '../constants.js';
+import {
+  BOULDER_GRADES,
+  DATE_RANGE_ALL_TIME,
+  DATE_RANGE_VALUE_LAST_12_MONTHS,
+  ROUTE_GRADES,
+  ROUTE_TYPES,
+} from '../constants.js';
 
 export default class TicksCollection {
   constructor() {
@@ -102,15 +108,38 @@ export default class TicksCollection {
     return { minIndex, maxIndex };
   }
 
-  getNumTicksForSendStyleAndGrade(routeType, sendStyle, grades) {
+  getNumTicksForStyleGradesDateRange(routeType, sendStyle, grades, dateRange) {
+    /**
+     * Get the number of ticks sent for each grade in the given send style and date range.
+     *
+     * @returns array of integers
+     */
     const tickCounts = [];
     const ticks = this.#getTicksForRouteType(routeType);
 
     for (let grade of grades) {
       const ticksForGrade = ticks.get(grade) || [];
-      const ticksForGradeAndSendStyle = ticksForGrade.filter(
-        (tick) => tick.sendStyle == sendStyle
-      );
+      const ticksForGradeAndSendStyle = ticksForGrade.filter((tick) => {
+        if (tick.sendStyle !== sendStyle) {
+          return false;
+        }
+
+        if (dateRange == DATE_RANGE_VALUE_LAST_12_MONTHS) {
+          let _12MonthsAgo = new Date();
+          _12MonthsAgo.setMonth(_12MonthsAgo.getMonth() - 12);
+
+          if (tick.date < _12MonthsAgo) {
+            return false;
+          }
+        } else if (
+          dateRange != DATE_RANGE_ALL_TIME &&
+          tick.date.getFullYear() != dateRange
+        ) {
+          return false;
+        }
+
+        return true;
+      });
       tickCounts.push(ticksForGradeAndSendStyle.length);
     }
 
