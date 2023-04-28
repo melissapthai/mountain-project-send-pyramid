@@ -122,6 +122,64 @@ const renderTabs = () => {
   sendChartTitle.insertAdjacentElement('afterend', tabsContainer);
 };
 
+const onDateRangeSelectChange = (e) => {
+  console.log(e.target.value);
+};
+
+const renderDateRangeSelect = (ticksCollection) => {
+  const dateRangeSelect = document.createElement('select');
+  dateRangeSelect.addEventListener('change', onDateRangeSelectChange);
+
+  const last12MonthsOption = document.createElement('option');
+  last12MonthsOption.setAttribute('value', '12');
+  last12MonthsOption.textContent = 'Last 12 months';
+
+  const allTimeOption = document.createElement('option');
+  allTimeOption.setAttribute('value', '0');
+  allTimeOption.textContent = 'All Time';
+
+  const currentYearOption = document.createElement('option');
+  currentYearOption.setAttribute('value', '2023');
+  currentYearOption.textContent = 'Current year';
+
+  const lastYearOption = document.createElement('option');
+  lastYearOption.setAttribute('value', '2022');
+  lastYearOption.textContent = 'Last year';
+
+  const _2021Option = document.createElement('option');
+  _2021Option.setAttribute('value', '2021');
+  _2021Option.textContent = '2021';
+
+  const _2020Option = document.createElement('option');
+  _2020Option.setAttribute('value', '2020');
+  _2020Option.textContent = '2020';
+
+  const _2019Option = document.createElement('option');
+  _2019Option.setAttribute('value', '2019');
+  _2019Option.textContent = '2019';
+
+  const _2018Option = document.createElement('option');
+  _2018Option.setAttribute('value', '2018');
+  _2018Option.textContent = '2018';
+
+  const _2017Option = document.createElement('option');
+  _2017Option.setAttribute('value', '2017');
+  _2017Option.textContent = '2017';
+
+  dateRangeSelect.appendChild(last12MonthsOption);
+  dateRangeSelect.appendChild(allTimeOption);
+  dateRangeSelect.appendChild(currentYearOption);
+  dateRangeSelect.appendChild(lastYearOption);
+  dateRangeSelect.appendChild(_2021Option);
+  dateRangeSelect.appendChild(_2020Option);
+  dateRangeSelect.appendChild(_2019Option);
+  dateRangeSelect.appendChild(_2018Option);
+  dateRangeSelect.appendChild(_2017Option);
+
+  const sendChartTitle = document.getElementById('send-chart-title');
+  sendChartTitle.insertAdjacentElement('afterend', dateRangeSelect);
+};
+
 const displayLoading = (loader) => {
   loader.classList.add('display');
 };
@@ -152,6 +210,9 @@ if (isProfilePage()) {
     setActiveTab(activeTab);
 
     const ticksCollection = preprocessData(csvData);
+
+    renderDateRangeSelect(ticksCollection);
+
     for (let routeType of Object.values(ROUTE_TYPES)) {
       renderChart(
         ROUTE_TYPE_TO_ELEMENT_ID[routeType].canvas,

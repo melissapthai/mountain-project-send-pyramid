@@ -74,9 +74,11 @@ const generateChartConfig = (tc, routeType) => {
   return chartConfig;
 };
 
-const renderChart = (canvasId, routeType, ticksCollection) => {
-  const chartConfig = generateChartConfig(ticksCollection, routeType);
-  return new Chart(document.getElementById(canvasId), chartConfig);
+const renderChart = (canvasId, routeType, ticksCollection, dateRange) => {
+  if (!dateRange) {
+    const chartConfig = generateChartConfig(ticksCollection, routeType);
+    return new Chart(document.getElementById(canvasId), chartConfig);
+  }
 };
 
 export default renderChart;
