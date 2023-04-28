@@ -1,6 +1,6 @@
 # <img src="public/icons/icon-48.png" width="45" align="left"> Mountain Project Send Pyramid
 
-![image](https://user-images.githubusercontent.com/3220734/234691712-bd5f55c5-2240-4b07-868f-4a48363f4fd0.png)
+![image](https://user-images.githubusercontent.com/3220734/235268616-d0d1c637-403b-4816-8723-ea01694db482.png)
 
 View your rock climbing sends on [Mountain Project](https://www.mountainproject.com/), organized by climb type (boulder, sport, or trad climbs).
 
