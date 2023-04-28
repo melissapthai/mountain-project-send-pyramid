@@ -88,8 +88,6 @@ export default class TicksCollection {
     }
   }
 
-  getDateBoundaries() {}
-
   getGradeBoundaries(routeType) {
     let grades =
       routeType == ROUTE_TYPES.boulder ? BOULDER_GRADES : ROUTE_GRADES;
@@ -119,7 +117,7 @@ export default class TicksCollection {
 
     for (let grade of grades) {
       const ticksForGrade = ticks.get(grade) || [];
-      const ticksForGradeAndSendStyle = ticksForGrade.filter((tick) => {
+      const ticksForStyleGradesDateRange = ticksForGrade.filter((tick) => {
         if (tick.sendStyle !== sendStyle) {
           return false;
         }
@@ -140,7 +138,7 @@ export default class TicksCollection {
 
         return true;
       });
-      tickCounts.push(ticksForGradeAndSendStyle.length);
+      tickCounts.push(ticksForStyleGradesDateRange.length);
     }
 
     return tickCounts;
