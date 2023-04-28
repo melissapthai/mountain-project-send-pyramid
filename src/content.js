@@ -2,7 +2,7 @@
 
 import './content.css';
 
-import renderChart from './sendChart.js';
+import { renderCharts, ROUTE_TYPE_TO_ELEMENT_ID } from './sendChart.js';
 import {
   DATE_RANGE_VALUE_LAST_12_MONTHS,
   DATE_RANGE_ALL_TIME,
@@ -11,19 +11,6 @@ import {
 import { preprocessData } from './utils/dataUtils.js';
 
 const localStorageActiveTabKey = 'climbingPyramid.activeTab';
-const ROUTE_TYPE_TO_ELEMENT_ID = {};
-ROUTE_TYPE_TO_ELEMENT_ID[ROUTE_TYPES.boulder] = {
-  tab: 'boulderTab',
-  canvas: 'boulderCanvas',
-};
-ROUTE_TYPE_TO_ELEMENT_ID[ROUTE_TYPES.sport] = {
-  tab: 'sportTab',
-  canvas: 'sportCanvas',
-};
-ROUTE_TYPE_TO_ELEMENT_ID[ROUTE_TYPES.trad] = {
-  tab: 'tradTab',
-  canvas: 'tradCanvas',
-};
 
 const isProfilePage = () => {
   // MP profile page url looks like this:
@@ -126,14 +113,16 @@ const renderTabs = () => {
   sendChartTitle.insertAdjacentElement('afterend', tabsContainer);
 };
 
-const onDateRangeSelectChange = (e) => {
-  console.log(e.target.value);
+const onDateRangeSelectChange = (ticksCollection, dateRange) => {
+  renderCharts(ticksCollection, dateRange);
 };
 
 const renderDateRangeSelect = (ticksCollection) => {
   const dateRangeSelect = document.createElement('select');
   dateRangeSelect.setAttribute('id', 'date-range-select');
-  dateRangeSelect.addEventListener('change', onDateRangeSelectChange);
+  dateRangeSelect.addEventListener('change', (e) => {
+    onDateRangeSelectChange(ticksCollection, e.target.value);
+  });
 
   const last12MonthsOption = document.createElement('option');
   last12MonthsOption.setAttribute('value', DATE_RANGE_VALUE_LAST_12_MONTHS);
@@ -198,17 +187,9 @@ if (isProfilePage()) {
     setActiveTab(activeTab);
 
     const ticksCollection = preprocessData(csvData);
-
     renderDateRangeSelect(ticksCollection);
-    const dateRange = document.getElementById('date-range-select').value;
 
-    for (let routeType of Object.values(ROUTE_TYPES)) {
-      renderChart(
-        ROUTE_TYPE_TO_ELEMENT_ID[routeType].canvas,
-        routeType,
-        ticksCollection,
-        dateRange
-      );
-    }
+    const dateRange = document.getElementById('date-range-select').value;
+    renderCharts(ticksCollection, dateRange);
   }
 }

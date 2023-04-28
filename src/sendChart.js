@@ -17,6 +17,20 @@ SEND_TYPE_TO_COLOR[SENDS.send] = ChartUtils.CHART_COLORS.green;
 SEND_TYPE_TO_COLOR[SENDS.redpoint] = ChartUtils.CHART_COLORS.red;
 SEND_TYPE_TO_COLOR[SENDS.pinkpoint] = ChartUtils.CHART_COLORS.pink;
 
+export const ROUTE_TYPE_TO_ELEMENT_ID = {};
+ROUTE_TYPE_TO_ELEMENT_ID[ROUTE_TYPES.boulder] = {
+  tab: 'boulderTab',
+  canvas: 'boulderCanvas',
+};
+ROUTE_TYPE_TO_ELEMENT_ID[ROUTE_TYPES.sport] = {
+  tab: 'sportTab',
+  canvas: 'sportCanvas',
+};
+ROUTE_TYPE_TO_ELEMENT_ID[ROUTE_TYPES.trad] = {
+  tab: 'tradTab',
+  canvas: 'tradCanvas',
+};
+
 const generateChartConfig = (tc, routeType, dateRange) => {
   const boundaries = tc.getGradeBoundaries(routeType);
   const grades =
@@ -76,6 +90,13 @@ const generateChartConfig = (tc, routeType, dateRange) => {
 };
 
 const renderChart = (canvasId, routeType, ticksCollection, dateRange) => {
+  // Need to destroy existing chart before creating a new chart in the same canvas.
+  // See: https://www.chartjs.org/docs/latest/developers/api.html#destroy
+  let chart = Chart.getChart(canvasId);
+  if (chart !== undefined) {
+    chart.destroy();
+  }
+
   const chartConfig = generateChartConfig(
     ticksCollection,
     routeType,
@@ -84,4 +105,13 @@ const renderChart = (canvasId, routeType, ticksCollection, dateRange) => {
   return new Chart(document.getElementById(canvasId), chartConfig);
 };
 
-export default renderChart;
+export const renderCharts = (ticksCollection, dateRange) => {
+  for (let routeType of Object.values(ROUTE_TYPES)) {
+    renderChart(
+      ROUTE_TYPE_TO_ELEMENT_ID[routeType].canvas,
+      routeType,
+      ticksCollection,
+      dateRange
+    );
+  }
+};
