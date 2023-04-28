@@ -3,7 +3,11 @@
 import './content.css';
 
 import renderChart from './sendChart.js';
-import { ROUTE_TYPES } from './constants.js';
+import {
+  DATE_RANGE_VALUE_LAST_12_MONTHS,
+  DATE_RANGE_ALL_TIME,
+  ROUTE_TYPES,
+} from './constants.js';
 import { preprocessData } from './utils/dataUtils.js';
 
 const localStorageActiveTabKey = 'climbingPyramid.activeTab';
@@ -131,50 +135,33 @@ const renderDateRangeSelect = (ticksCollection) => {
   dateRangeSelect.addEventListener('change', onDateRangeSelectChange);
 
   const last12MonthsOption = document.createElement('option');
-  last12MonthsOption.setAttribute('value', '12');
+  last12MonthsOption.setAttribute('value', DATE_RANGE_VALUE_LAST_12_MONTHS);
   last12MonthsOption.textContent = 'Last 12 months';
 
   const allTimeOption = document.createElement('option');
-  allTimeOption.setAttribute('value', '0');
+  allTimeOption.setAttribute('value', DATE_RANGE_ALL_TIME);
   allTimeOption.textContent = 'All Time';
 
-  const currentYearOption = document.createElement('option');
-  currentYearOption.setAttribute('value', '2023');
-  currentYearOption.textContent = 'Current year';
+  let yearOptions = [];
+  if (ticksCollection.minDate && ticksCollection.maxDate) {
+    const today = new Date();
+    const minYear = ticksCollection.minDate.getFullYear();
 
-  const lastYearOption = document.createElement('option');
-  lastYearOption.setAttribute('value', '2022');
-  lastYearOption.textContent = 'Last year';
-
-  const _2021Option = document.createElement('option');
-  _2021Option.setAttribute('value', '2021');
-  _2021Option.textContent = '2021';
-
-  const _2020Option = document.createElement('option');
-  _2020Option.setAttribute('value', '2020');
-  _2020Option.textContent = '2020';
-
-  const _2019Option = document.createElement('option');
-  _2019Option.setAttribute('value', '2019');
-  _2019Option.textContent = '2019';
-
-  const _2018Option = document.createElement('option');
-  _2018Option.setAttribute('value', '2018');
-  _2018Option.textContent = '2018';
-
-  const _2017Option = document.createElement('option');
-  _2017Option.setAttribute('value', '2017');
-  _2017Option.textContent = '2017';
+    let year = ticksCollection.maxDate.getFullYear();
+    for (; year >= minYear; year--) {
+      const option = document.createElement('option');
+      option.setAttribute('value', year);
+      const textContent = year == today.getFullYear() ? 'Current year' : year;
+      option.textContent = textContent;
+      yearOptions.push(option);
+    }
+  }
 
   dateRangeSelect.appendChild(last12MonthsOption);
   dateRangeSelect.appendChild(allTimeOption);
-  dateRangeSelect.appendChild(currentYearOption);
-  dateRangeSelect.appendChild(lastYearOption);
-  dateRangeSelect.appendChild(_2021Option);
-  dateRangeSelect.appendChild(_2020Option);
-  dateRangeSelect.appendChild(_2019Option);
-  dateRangeSelect.appendChild(_2018Option);
-  dateRangeSelect.appendChild(_2017Option);
+  for (let option of yearOptions) {
+    dateRangeSelect.appendChild(option);
+  }
 
   const sendChartTitle = document.getElementById('send-chart-title');
   sendChartTitle.insertAdjacentElement('afterend', dateRangeSelect);

@@ -5,6 +5,8 @@ export default class TicksCollection {
     this.boulder = new Map();
     this.sport = new Map();
     this.trad = new Map();
+    this.minDate = null;
+    this.maxDate = null;
   }
 
   #getTicksForRouteType(routeType) {
@@ -26,7 +28,30 @@ export default class TicksCollection {
   addTick(tick) {
     // Only add the tick if it's a send
     if (!tick.sendStyle) {
+      console.warn(
+        'Mountain Project Send Pyramid extension: ',
+        tick,
+        ' is not a send.'
+      );
       return;
+    }
+
+    // Only add tick if it's a boulder/sport/trad route
+    if (!Object.values(ROUTE_TYPES).some((r) => tick.routeTypes.includes(r))) {
+      console.warn(
+        'Mountain Project Send Pyramid extension: ',
+        tick,
+        ' is not a boulder/sport/trad route.'
+      );
+      return;
+    }
+
+    if (!this.minDate || tick.date < this.minDate) {
+      this.minDate = tick.date;
+    }
+
+    if (!this.maxDate || tick.date > this.maxDate) {
+      this.maxDate = tick.date;
     }
 
     if (tick.routeTypes.includes(ROUTE_TYPES.boulder)) {
@@ -56,6 +81,8 @@ export default class TicksCollection {
       this.trad.get(rating).push(tick);
     }
   }
+
+  getDateBoundaries() {}
 
   getGradeBoundaries(routeType) {
     let grades =

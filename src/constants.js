@@ -1,3 +1,6 @@
+export const DATE_RANGE_VALUE_LAST_12_MONTHS = 12;
+export const DATE_RANGE_ALL_TIME = 0;
+
 export const BOULDER_GRADES = [
   'V-easy',
   'V0-',
