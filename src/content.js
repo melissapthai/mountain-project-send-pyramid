@@ -27,9 +27,21 @@ const isProfilePage = () => {
   );
 };
 
+function UrlExists(url) {
+  var http = new XMLHttpRequest();
+  http.open('HEAD', url, false);
+  http.send();
+  if (http.status != 404)
+      return true;
+  else
+      return false;
+};
+
 const getTicksDiv = () => {
   const sections = document.getElementsByClassName('section clearfix');
-  if (sections && sections.length == 4) {
+  const url = window.location.href;
+  const privateTicks = url.concat('/ticks');
+  if (sections && sections.length == 4 && UrlExists(privateTicks) == true) {
     // MP profile pages are split into 4 sections (in this order):
     // To-Do List, Ticks, Tick Breakdown, and Where <User> Climbs.
     // We only care about the Ticks section.
