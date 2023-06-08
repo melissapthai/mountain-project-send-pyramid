@@ -95,6 +95,10 @@ export default class TicksCollection {
     let maxIndex = grades.length - 1;
     let ticks = this.#getTicksForRouteType(routeType);
 
+    if (ticks.size == 0) {
+      return { minIndex, maxIndex };
+    }
+
     while (!ticks.has(grades[minIndex])) {
       minIndex++;
     }
