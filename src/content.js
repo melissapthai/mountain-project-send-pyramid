@@ -12,6 +12,10 @@ import { preprocessData } from './utils/dataUtils.js';
 
 const localStorageActiveTabKey = 'climbingPyramid.activeTab';
 
+const shouldDisplaySendPyramid = () => {
+  return isProfilePage() && !hasPrivateTicks();
+};
+
 const isProfilePage = () => {
   // MP profile page url looks like this:
   // https://www.mountainproject.com/user/<user id>/<user name>
@@ -27,19 +31,32 @@ const isProfilePage = () => {
   );
 };
 
-// TODO: refactor
-function UrlExists(url) {
-  var http = new XMLHttpRequest();
-  http.open('HEAD', url, false);
-  http.send();
-  return http.status != 404;
-}
+const hasPrivateTicks = () => {
+  // NOTE: This implementation is highly coupled to the DOM set by MP.
+
+  const sections = document.getElementsByClassName('section clearfix');
+  if (sections && sections.length > 1) {
+    // MP profile pages are split into 4 sections (in this order):
+    // To-Do List, Ticks, Tick Breakdown, and Where <User> Climbs.
+    // We only care about the Ticks section.
+
+    const ticksSection = sections[1];
+
+    // Ticks section has <a>, <div.sectionTitle>, and <div>
+    // If the ticks are public, the third div will have a 'table-responsive' class.
+    // If ticks are private, it won't have any classes.
+    return (
+      ticksSection.children.length == 3 &&
+      ticksSection.children[2].classList.length == 0
+    );
+  }
+
+  return true;
+};
 
 const getTicksDiv = () => {
   const sections = document.getElementsByClassName('section clearfix');
-  const url = window.location.href;
-  const privateTicks = url.concat('/ticks');
-  if (sections && sections.length == 4 && UrlExists(privateTicks)) {
+  if (sections && sections.length == 4) {
     // MP profile pages are split into 4 sections (in this order):
     // To-Do List, Ticks, Tick Breakdown, and Where <User> Climbs.
     // We only care about the Ticks section.
@@ -175,7 +192,7 @@ const hideLoading = (loader) => {
   loader.remove();
 };
 
-if (isProfilePage()) {
+if (shouldDisplaySendPyramid()) {
   const ticksDiv = getTicksDiv();
 
   if (ticksDiv) {
