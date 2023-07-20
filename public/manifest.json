@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Mountain Project Send Pyramid",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "View your send pyramid from Mountain Project ticks",
   "icons": {
     "16": "icons/icon-16.png",
