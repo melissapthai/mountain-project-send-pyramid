@@ -12,9 +12,7 @@
   "action": {
     "default_title": "Mountain Project Send Pyramid"
   },
-  "permissions": [
-    "storage"
-  ],
+  "permissions": [],
   "content_scripts": [
     {
       "js": ["content.js"],
