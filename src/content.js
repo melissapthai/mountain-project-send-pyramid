@@ -22,49 +22,47 @@ const isProfilePage = () => {
   // We only want to display the climbing chart if we're on a profile page.
   // Do not display on a non-profile page, ex: /contributions, /community, /ticks
 
-  const url = window.location.href;
-  const urlSplit = url.split('/');
+  // Path parts should be ['user', '<user id>', '<user name>']
+  const parts = window.location.pathname.split('/').filter(Boolean);
   return (
-    urlSplit.length > 3 &&
-    urlSplit.length < 7 &&
-    urlSplit[urlSplit.length - 3] == 'user'
+    parts.length === 3 &&
+    parts[0] === 'user' &&
+    /^\d+$/.test(parts[1])
   );
 };
 
 const hasPrivateTicks = () => {
-  // NOTE: This implementation is highly coupled to the DOM set by MP.
+  const tickBreakdown = document.querySelector('a[name="tickBreakdown"]');
+  const section = tickBreakdown?.closest('.section.clearfix');
+  const text = section?.innerText.toLowerCase();
 
-  const sections = document.getElementsByClassName('section clearfix');
-  if (sections && sections.length > 1) {
-    // MP profile pages are split into 4 sections (in this order):
-    // To-Do List, Ticks, Tick Breakdown, and Where <User> Climbs.
-    // We only care about the Ticks section.
-
-    const ticksSection = sections[1];
-
-    // Ticks section has <a>, <div.sectionTitle>, and <div>
-    // If the ticks are public, the third div will have a 'table-responsive' class.
-    // If ticks are private, it won't have any classes.
-    return (
-      ticksSection.children.length == 3 &&
-      ticksSection.children[2].classList.length == 0
+  if (!text) {
+    console.error(
+      'Mountain Project Send Pyramid extension: Unable to determine if ticks are private.'
     );
+    return true;
   }
 
-  return true;
+  const hasPrivateTicks = text.includes('private');
+
+  if (hasPrivateTicks) {
+    console.log('Mountain Project Send Pyramid extension: Ticks are private, not displaying send pyramid.');
+  }
+
+  return hasPrivateTicks;
 };
 
 const getTicksDiv = () => {
-  const sections = document.getElementsByClassName('section clearfix');
-  if (sections && sections.length == 4) {
-    // MP profile pages are split into 4 sections (in this order):
-    // To-Do List, Ticks, Tick Breakdown, and Where <User> Climbs.
-    // We only care about the Ticks section.
-    return sections[1];
+  const ticks = document.querySelector('a[name="ticks"]');
+  const section = ticks?.closest('.section.clearfix');
+
+  if (!section) {
+    console.error(
+      'Mountain Project Send Pyramid extension: Unable to render send pyramid!'
+    );
   }
-  console.error(
-    'Mountain Project Send Pyramid extension: Unable to render send pyramid!'
-  );
+
+  return section;
 };
 
 const renderClimbingChartContainer = () => {
