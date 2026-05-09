@@ -47,6 +47,18 @@ You can also run a suite of other nifty commands to make development easier, jus
 
 And that's it!
 
+## Privacy Policy
+
+Mountain Project Send Pyramid does not collect, sell, or share user data.
+
+The extension runs only on Mountain Project user profile pages. It reads page content and tick-export data from Mountain
+Project only to generate a send pyramid chart in the user's browser.
+
+All processing happens locally in the browser. The extension does not transmit tick data, browsing data, personal
+information, analytics, or usage information to the developer or to third parties.
+
+The extension stores only a local display preference for the selected chart tab using browser local storage.
+
 ---
 
 Feel free to reach out to me through email at melissapthai@gmail.com if you have any questions or suggestions!
